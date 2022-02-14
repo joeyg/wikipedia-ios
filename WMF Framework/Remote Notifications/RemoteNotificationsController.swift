@@ -257,8 +257,7 @@ public enum RemoteNotificationsControllerError: LocalizedError {
             }
         }
             
-            
-        guard !isFullyImported else {
+        guard willNeedImporting() else {
             fetchFromDatabase()
             return
         }
@@ -358,6 +357,18 @@ public enum RemoteNotificationsControllerError: LocalizedError {
     }
     
     //MARK: Private
+    
+    private func willNeedImporting() -> Bool {
+        let appLanguageProjects =  languageLinkController.preferredLanguages.map { RemoteNotificationsProject.wikipedia($0.languageCode, $0.localizedName, $0.languageVariantCode) }
+        for project in appLanguageProjects {
+            if let alreadyImported = modelController?.isProjectAlreadyImported(project: project),
+              !alreadyImported {
+                return true
+            }
+        }
+
+        return false
+    }
     
     /// Pulls filter state from local persistence and saves it in memory
     private func populateFilterStateFromPersistence() {

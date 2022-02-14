@@ -1406,6 +1406,24 @@ NSString *const WMFLanguageVariantAlertsLibraryVersion = @"WMFLanguageVariantAle
     return _exploreViewController;
 }
 
+- (void)setNotificationsCenterButtonForExploreViewController:(ExploreViewController *)exploreViewController {
+    if (self.dataStore.authenticationManager.isLoggedIn) {
+        NSInteger numUnreadNotifications = [[self.dataStore.remoteNotificationsController numberOfUnreadNotificationsAndReturnError:nil] integerValue];
+        UIImage *image = numUnreadNotifications == 0 ? [self notificationsCenterBellImageWithUnreadNotifications:NO] : [self notificationsCenterBellImageWithUnreadNotifications:YES];
+        UIBarButtonItem *notificationsBarButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:_exploreViewController action:@selector(userDidTapNotificationsCenter)];
+        notificationsBarButton.accessibilityLabel = [WMFCommonStrings notificationsCenterTitle];
+        exploreViewController.navigationItem.leftBarButtonItem = notificationsBarButton;
+    } else {
+        exploreViewController.navigationItem.leftBarButtonItem = nil;
+    }
+    NSLog(@"update navigation items");
+    [exploreViewController.navigationBar updateNavigationItems];
+}
+
+- (void)setNotificationsCenterButtonForSettingsViewController:(WMFSettingsViewController *)settingsViewController {
+    [settingsViewController configureBarButtonItems];
+}
+
 - (void)handleExploreCenterBadgeNeedsUpdateNotification {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.exploreViewController updateNotificationsCenterButton];
