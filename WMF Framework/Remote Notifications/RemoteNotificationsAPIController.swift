@@ -251,7 +251,7 @@ public class RemoteNotificationsAPIController: Fetcher {
         request(project: project, queryParameters: Query.notifications(limit: .max, filter: .unread, notifierType: .push, continueId: nil), completion: completion)
     }
     
-    func getAllNotifications(from project: RemoteNotificationsProject, needsCrossWikiSummary: Bool = false, filter: Query.Filter = .none, continueId: String?, completion: @escaping (NotificationsResult.Query.Notifications?, Error?) -> Void) {
+    func getAllNotifications(from project: RemoteNotificationsProject, needsCrossWikiSummary: Bool = false, filter: Query.Filter = .none, continueId: String?, fromRefresh: Bool = false, fromCrossWikiOperation: Bool = false, completion: @escaping (NotificationsResult.Query.Notifications?, Error?) -> Void) {
         let completion: (NotificationsResult?, URLResponse?, Error?) -> Void = { result, _, error in
             guard error == nil else {
                 completion(nil, error)
@@ -297,7 +297,7 @@ public class RemoteNotificationsAPIController: Fetcher {
                 return
             }
             guard let result = result else {
-                assertionFailure("Expected result; make sure MarkReadResult maps the expected result correctly")
+                //assertionFailure("Expected result; make sure MarkReadResult maps the expected result correctly")
                 completion(MarkReadError.noResult)
                 return
             }
@@ -325,7 +325,7 @@ public class RemoteNotificationsAPIController: Fetcher {
                     return
                 }
                 guard let result = result else {
-                    assertionFailure("Expected result; make sure MarkReadResult maps the expected result correctly")
+                    //assertionFailure("Expected result; make sure MarkReadResult maps the expected result correctly")
                     completion(MarkReadError.noResult)
                     return
                 }
@@ -348,10 +348,8 @@ public class RemoteNotificationsAPIController: Fetcher {
             }
         }
     }
-    
-    //MARK: Private
 
-    private func request<T: Decodable>(project: RemoteNotificationsProject?, queryParameters: Query.Parameters?, method: Session.Request.Method = .get, completion: @escaping (T?, URLResponse?, Error?) -> Void) {
+    func request<T: Decodable>(project: RemoteNotificationsProject?, queryParameters: Query.Parameters?, method: Session.Request.Method = .get, completion: @escaping (T?, URLResponse?, Error?) -> Void) {
 
         guard let url = project?.mediaWikiAPIURL(configuration: configuration, queryParameters: queryParameters) else {
             completion(nil, nil, RequestError.invalidParameters)
@@ -370,6 +368,17 @@ public class RemoteNotificationsAPIController: Fetcher {
                 }
             }
         }
+    }
+    //MARK: Private
+    
+    private func notifications(from result: NotificationsResult?) -> Set<NotificationsResult.Notification>? {
+        guard let result = result else {
+            return nil
+        }
+        guard let list = result.query?.notifications?.list else {
+            return nil
+        }
+        return Set(list)
     }
 
     // MARK: Query parameters

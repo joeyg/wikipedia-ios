@@ -62,7 +62,7 @@ public enum RemoteNotificationsControllerError: LocalizedError {
     
     @objc public required init(session: Session, configuration: Configuration, languageLinkController: MWKLanguageLinkController, authManager: WMFAuthenticationManager) {
         
-        self.apiController = RemoteNotificationsAPIController(session: session, configuration: configuration)
+        self.apiController = RemoteNotificationsTestingAPIController(session: session, configuration: configuration)
         self.configuration = configuration
         self.authManager = authManager
         self.languageLinkController = languageLinkController
