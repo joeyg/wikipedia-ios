@@ -164,7 +164,7 @@ final class NotificationsCenterViewModel: NSObject {
     
     func markAsReadOrUnread(viewModels: [NotificationsCenterCellViewModel], shouldMarkRead: Bool) {
         
-        let identifierGroups = viewModels.map { $0.notification.identifierGroup }
+        let identifierGroups = viewModels.map { $0.commonViewModel.notification.identifierGroup }
         remoteNotificationsController.markAsReadOrUnread(identifierGroups: Set(identifierGroups), shouldMarkRead: shouldMarkRead) { result in
             switch result {
             case .failure(let error):

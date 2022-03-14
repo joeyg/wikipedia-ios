@@ -4,9 +4,7 @@ final class NotificationsCenterCellViewModel {
 
     // MARK: - Properties
 
-    let notification: RemoteNotification
     let key: String
-    let project: RemoteNotificationsProject
     let commonViewModel: NotificationsCenterCommonViewModel
     
     private(set) var displayState: NotificationsCenterCellDisplayState
@@ -22,9 +20,7 @@ final class NotificationsCenterCellViewModel {
             return nil
         }
         
-        self.notification = notification
         self.key = key
-        self.project = project
         
         self.commonViewModel = NotificationsCenterCommonViewModel(configuration: configuration, notification: notification, project: project)
         
@@ -34,11 +30,11 @@ final class NotificationsCenterCellViewModel {
     // MARK: - Public
     
     var notificationType: RemoteNotificationType? {
-        return notification.type
+        return commonViewModel.notification.type
     }
     
     var isRead: Bool {
-        return notification.isRead
+        return commonViewModel.notification.isRead
     }
     
     func updateDisplayState(isEditing: Bool? = nil, isSelected: Bool? = nil) {

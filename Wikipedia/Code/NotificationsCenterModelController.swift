@@ -116,14 +116,14 @@ final class NotificationsCenterModelController {
     
     private var sortedCellViewModels: [NotificationsCenterCellViewModel] {
         let sortedCellViewModels = cellViewModels.sorted { lhs, rhs in
-            guard let lhsDate = lhs.notification.date,
-                  let rhsDate = rhs.notification.date else {
+            guard let lhsDate = lhs.commonViewModel.notification.date,
+                  let rhsDate = rhs.commonViewModel.notification.date else {
                 return false
             }
             return lhsDate > rhsDate
         }
         
-        oldestDisplayedNotificationDate = sortedCellViewModels.last?.notification.date
+        oldestDisplayedNotificationDate = sortedCellViewModels.last?.commonViewModel.notification.date
         return sortedCellViewModels
     }
 }

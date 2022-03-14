@@ -7,7 +7,7 @@ extension NotificationsCenterCellViewModel {
     var subheaderText: String {
         let alertFromText = WMFLocalizedString("notifications-center-header-alert-from-agent", value: "Alert from %1$@", comment: "Subheader text for unknown alert type notifications in Notifications Center. %1$@ will be replaced with the origin agent of the notification.")
 
-        switch notification.type {
+        switch commonViewModel.notification.type {
         case .userTalkPageMessage,
              .mentionInTalkPage,
              .mentionInEditSummary,
@@ -18,29 +18,29 @@ extension NotificationsCenterCellViewModel {
              .pageLinked,
              .connectionWithWikidata,
              .emailFromOtherUser:
-            guard let agentName = notification.agentName else {
-                return genericHeaderText(type: notification.type, project: project)
+            guard let agentName = commonViewModel.notification.agentName else {
+                return genericHeaderText(type: commonViewModel.notification.type, project: commonViewModel.project)
             }
 
             return String.localizedStringWithFormat(CommonStrings.notificationsCenterAgentDescriptionFromFormat, agentName)
         case .welcome,
              .editMilestone,
              .translationMilestone:
-            return String.localizedStringWithFormat(CommonStrings.projectDescriptionFromFormat, project.projectName(shouldReturnCodedFormat: false))
+            return String.localizedStringWithFormat(CommonStrings.projectDescriptionFromFormat, commonViewModel.project.projectName(shouldReturnCodedFormat: false))
         case .loginFailKnownDevice,
              .loginFailUnknownDevice,
              .loginSuccessUnknownDevice,
              .failedMention,
              .successfulMention:
-            return alertText(project: project)
+            return alertText(project: commonViewModel.project)
             
         case .unknownSystemAlert,
              .unknownSystemNotice,
              .unknownAlert,
              .unknownNotice,
              .unknown:
-            guard let agentName = notification.agentName else {
-                return genericHeaderText(type: notification.type, project: project)
+            guard let agentName = commonViewModel.notification.agentName else {
+                return genericHeaderText(type: commonViewModel.notification.type, project: commonViewModel.project)
             }
 
             return String.localizedStringWithFormat(alertFromText, agentName)
@@ -56,7 +56,7 @@ extension NotificationsCenterCellViewModel {
     }
     
     var footerText: String? {
-        switch notification.type {
+        switch commonViewModel.notification.type {
         case .welcome,
              .emailFromOtherUser:
             return nil
@@ -69,7 +69,7 @@ extension NotificationsCenterCellViewModel {
              .unknownAlert,
              .unknownNotice,
              .unknown:
-            guard let primaryLinkLabel = notification.primaryLinkLabel else {
+            guard let primaryLinkLabel = commonViewModel.notification.primaryLinkLabel else {
                 return nil
             }
             
@@ -87,7 +87,7 @@ extension NotificationsCenterCellViewModel {
             .thanks,
             .translationMilestone,
             .editMilestone:
-            return notification.titleFull
+            return commonViewModel.notification.titleFull
         }
     }
     
@@ -96,7 +96,7 @@ extension NotificationsCenterCellViewModel {
     }
     
     var projectText: String? {
-        switch project {
+        switch commonViewModel.project {
         case .wikipedia(let languageCode, _, _):
             return languageCode.uppercased()
         case .commons,

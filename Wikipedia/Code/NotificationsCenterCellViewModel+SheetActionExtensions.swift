@@ -13,7 +13,7 @@ extension NotificationsCenterCellViewModel {
         let markAsReadOrUnreadActionData = NotificationsCenterActionData(text: markAsReadOrUnreadText, url: nil, iconType: nil)
         sheetActions.append(.markAsReadOrUnread(markAsReadOrUnreadActionData))
         
-        switch notification.type {
+        switch commonViewModel.notification.type {
         case .userTalkPageMessage:
             sheetActions.append(contentsOf: userTalkPageActions)
         case .mentionInTalkPage:
@@ -274,7 +274,7 @@ private extension NotificationsCenterCellViewModel {
     var genericAlertActions: [NotificationsCenterAction] {
         var sheetActions: [NotificationsCenterAction] = []
 
-        if let secondaryLinks = notification.secondaryLinks {
+        if let secondaryLinks = commonViewModel.notification.secondaryLinks {
             let secondaryNotificationsCenterActions = secondaryLinks.compactMap { commonViewModel.actionForGenericLink(link:$0) }
             sheetActions.append(contentsOf: secondaryNotificationsCenterActions)
         }
@@ -283,7 +283,7 @@ private extension NotificationsCenterCellViewModel {
             sheetActions.append(diffAction)
         }
 
-        if let primaryLink = notification.primaryLink,
+        if let primaryLink = commonViewModel.notification.primaryLink,
            let primaryAction = commonViewModel.actionForGenericLink(link: primaryLink) {
             sheetActions.append(primaryAction)
         }
@@ -302,7 +302,7 @@ private extension NotificationsCenterCellViewModel {
             sheetActions.append(diffAction)
         }
 
-        if let primaryLink = notification.primaryLink,
+        if let primaryLink = commonViewModel.notification.primaryLink,
            let primaryAction = commonViewModel.actionForGenericLink(link: primaryLink) {
             sheetActions.append(primaryAction)
         }

@@ -4,11 +4,11 @@ import Foundation
 extension NotificationsCenterCellViewModel {
         
     var projectIconName: NotificationsCenterIconName? {
-        return project.projectIconName
+        return commonViewModel.project.projectIconName
     }
         
     var footerIconType: NotificationsCenterIconType? {
-        switch notification.type {
+        switch commonViewModel.notification.type {
         case .loginFailKnownDevice,
              .loginFailUnknownDevice,
              .loginSuccessUnknownDevice:
@@ -23,8 +23,8 @@ extension NotificationsCenterCellViewModel {
             break
         }
         
-        guard let namespace = PageNamespace(rawValue: Int(notification.titleNamespaceKey)),
-              notification.titleNamespace != nil else {
+        guard let namespace = PageNamespace(rawValue: Int(commonViewModel.notification.titleNamespaceKey)),
+              commonViewModel.notification.titleNamespace != nil else {
             return nil
         }
         
