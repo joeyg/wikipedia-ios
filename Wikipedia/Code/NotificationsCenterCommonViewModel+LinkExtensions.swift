@@ -144,15 +144,7 @@ extension NotificationsCenterCommonViewModel {
             return nil
         }
 
-        guard let namespace = data.titleNamespace,
-              namespace == .userTalk,
-              var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            return url
-        }
-
-        //primaryLinkFragment sometimes returns user's talk signature within in, which messes up deep linking to a talk page topic. Prefer legacyPrimaryLinkFragment which seems to not have this signature.
-        components.fragment = data.legacyPrimaryLinkFragment ?? data.primaryLinkFragment
-        return components.url
+        return fragementedURL(url: url, linkData: data)
     }
     
     /// Generates a wiki url with the titleText value from the notification
@@ -168,7 +160,21 @@ extension NotificationsCenterCommonViewModel {
             return nil
         }
 
-        return url
+        return fragementedURL(url: url, linkData: data)
+    }
+    
+    /// Seeks out and appends the url fragment from the primary link to a generated url parameter
+    /// Only does this for user talk page types, to allow deep linking into a particular topic
+    private func fragementedURL(url: URL, linkData: LinkData) -> URL? {
+        guard let namespace = linkData.titleNamespace,
+              namespace == .userTalk,
+              var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            return url
+        }
+
+        //primaryLinkFragment sometimes returns user's talk signature within in, which messes up deep linking to a talk page topic. Prefer legacyPrimaryLinkFragment which seems to not have this signature.
+        components.fragment = linkData.legacyPrimaryLinkFragment ?? linkData.primaryLinkFragment
+        return components.url
     }
     
     /// Generates a wiki url with the agentName from the notification
