@@ -14,7 +14,7 @@ extension NotificationsCenterDetailViewModel {
             }
         case .editReverted,
                 .mentionInEditSummary:
-            if let diffAction = commonViewModel.diffNotificationsCenterAction {
+            if let diffAction = commonViewModel.diffAction {
                 return diffAction
             }
         case .successfulMention,
@@ -25,7 +25,7 @@ extension NotificationsCenterDetailViewModel {
                 return titleAction
             }
         case .userRightsChange:
-            if let userGroupRightsAction = commonViewModel.userGroupRightsNotificationsCenterAction {
+            if let userGroupRightsAction = commonViewModel.userGroupRightsAction {
                 return userGroupRightsAction
             }
         case .pageLinked:
@@ -37,39 +37,39 @@ extension NotificationsCenterDetailViewModel {
                 return wikidataItemAction
             }
         case .emailFromOtherUser:
-            if let agentUserPageAction = commonViewModel.agentUserPageSimplifiedAction {
+            if let agentUserPageAction = commonViewModel.userPageSimplifiedAction {
                 return agentUserPageAction
             }
         case .thanks:
-            if let diffAction = commonViewModel.diffNotificationsCenterAction {
+            if let diffAction = commonViewModel.diffAction {
                 return diffAction
             }
         case .translationMilestone:
             return nil
         case .welcome:
-            if let gettingStartedAction = commonViewModel.gettingStartedNotificationsCenterAction {
+            if let gettingStartedAction = commonViewModel.gettingStartedAction {
                 return gettingStartedAction
             }
         case .loginFailKnownDevice,
              .loginFailUnknownDevice,
              .loginSuccessUnknownDevice:
-            if let changePasswordNotificationsCenterAction = commonViewModel.changePasswordNotificationsCenterAction {
-                return changePasswordNotificationsCenterAction
+            if let changePasswordAction = commonViewModel.changePasswordAction {
+                return changePasswordAction
             }
 
         case .unknownAlert,
              .unknownSystemAlert:
             if let primaryLink = commonViewModel.notification.primaryLink,
-               let primaryNotificationsCenterAction = commonViewModel.actionForGenericLink(link: primaryLink) {
-                return primaryNotificationsCenterAction
+               let primaryAction = commonViewModel.actionForGenericLink(link: primaryLink) {
+                return primaryAction
             }
 
         case .unknownSystemNotice,
              .unknownNotice,
              .unknown:
             if let primaryLink = commonViewModel.notification.primaryLink,
-               let primaryNotificationsCenterAction = commonViewModel.actionForGenericLink(link: primaryLink) {
-                return primaryNotificationsCenterAction
+               let primaryAction = commonViewModel.actionForGenericLink(link: primaryLink) {
+                return primaryAction
             }
         }
         
@@ -132,11 +132,11 @@ private extension NotificationsCenterDetailViewModel {
     var userTalkPageActions: [NotificationsCenterAction] {
         var actions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageSimplifiedAction {
+        if let agentUserPageAction = commonViewModel.userPageSimplifiedAction {
             actions.append(agentUserPageAction)
         }
 
-        if let diffAction = commonViewModel.diffNotificationsCenterAction {
+        if let diffAction = commonViewModel.diffAction {
             actions.append(diffAction)
         }
 
@@ -146,11 +146,11 @@ private extension NotificationsCenterDetailViewModel {
     var mentionInTalkPageActions: [NotificationsCenterAction] {
         var actions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageSimplifiedAction {
+        if let agentUserPageAction = commonViewModel.userPageSimplifiedAction {
             actions.append(agentUserPageAction)
         }
         
-        if let diffAction = commonViewModel.diffNotificationsCenterAction {
+        if let diffAction = commonViewModel.diffAction {
             actions.append(diffAction)
         }
 
@@ -164,7 +164,7 @@ private extension NotificationsCenterDetailViewModel {
     var mentionInEditSummaryActions: [NotificationsCenterAction] {
         var actions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageSimplifiedAction {
+        if let agentUserPageAction = commonViewModel.userPageSimplifiedAction {
             actions.append(agentUserPageAction)
         }
 
@@ -182,7 +182,7 @@ private extension NotificationsCenterDetailViewModel {
     var editRevertedActions: [NotificationsCenterAction] {
         var actions: [NotificationsCenterAction] = []
         
-        if let agentUserPageAction = commonViewModel.agentUserPageSimplifiedAction {
+        if let agentUserPageAction = commonViewModel.userPageSimplifiedAction {
             actions.append(agentUserPageAction)
         }
 
@@ -200,11 +200,11 @@ private extension NotificationsCenterDetailViewModel {
     var userGroupRightsActions: [NotificationsCenterAction] {
         var actions: [NotificationsCenterAction] = []
 
-        if let specificUserGroupRightsAction = commonViewModel.specificUserGroupRightsNotificationsCenterAction {
+        if let specificUserGroupRightsAction = commonViewModel.specificUserGroupRightsAction {
             actions.append(specificUserGroupRightsAction)
         }
 
-        if let agentUserPageAction = commonViewModel.agentUserPageSimplifiedAction {
+        if let agentUserPageAction = commonViewModel.userPageSimplifiedAction {
             actions.append(agentUserPageAction)
         }
 
@@ -214,7 +214,7 @@ private extension NotificationsCenterDetailViewModel {
     var pageReviewedActions: [NotificationsCenterAction] {
         var actions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageSimplifiedAction {
+        if let agentUserPageAction = commonViewModel.userPageSimplifiedAction {
             actions.append(agentUserPageAction)
         }
 
@@ -224,7 +224,7 @@ private extension NotificationsCenterDetailViewModel {
     var pageLinkActions: [NotificationsCenterAction] {
         var actions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageSimplifiedAction {
+        if let agentUserPageAction = commonViewModel.userPageSimplifiedAction {
             actions.append(agentUserPageAction)
         }
         
@@ -233,7 +233,7 @@ private extension NotificationsCenterDetailViewModel {
             actions.append(titleAction)
         }
 
-        if let diffAction = commonViewModel.diffNotificationsCenterAction {
+        if let diffAction = commonViewModel.diffAction {
             actions.append(diffAction)
         }
 
@@ -243,7 +243,7 @@ private extension NotificationsCenterDetailViewModel {
     var connectionWithWikidataActions: [NotificationsCenterAction] {
         var actions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageSimplifiedAction {
+        if let agentUserPageAction = commonViewModel.userPageSimplifiedAction {
             actions.append(agentUserPageAction)
         }
 
@@ -261,7 +261,7 @@ private extension NotificationsCenterDetailViewModel {
     var thanksActions: [NotificationsCenterAction] {
         var actions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageSimplifiedAction {
+        if let agentUserPageAction = commonViewModel.userPageSimplifiedAction {
             actions.append(agentUserPageAction)
         }
 
@@ -286,11 +286,11 @@ private extension NotificationsCenterDetailViewModel {
         var actions: [NotificationsCenterAction] = []
 
         if let secondaryLinks = commonViewModel.notification.secondaryLinks {
-            let secondaryNotificationsCenterActions = secondaryLinks.compactMap { commonViewModel.actionForGenericLink(link:$0) }
-            actions.append(contentsOf: secondaryNotificationsCenterActions)
+            let secondaryActions = secondaryLinks.compactMap { commonViewModel.actionForGenericLink(link:$0) }
+            actions.append(contentsOf: secondaryActions)
         }
 
-        if let diffAction = commonViewModel.diffNotificationsCenterAction {
+        if let diffAction = commonViewModel.diffAction {
             actions.append(diffAction)
         }
 
@@ -300,11 +300,11 @@ private extension NotificationsCenterDetailViewModel {
     var genericActions: [NotificationsCenterAction] {
         var actions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageSimplifiedAction {
+        if let agentUserPageAction = commonViewModel.userPageSimplifiedAction {
             actions.append(agentUserPageAction)
         }
 
-        if let diffAction = commonViewModel.diffNotificationsCenterAction {
+        if let diffAction = commonViewModel.diffAction {
             actions.append(diffAction)
         }
 

@@ -17,7 +17,7 @@ struct NotificationsCenterActionData {
 
 extension NotificationsCenterCommonViewModel {
     //"Go to [Username]'s user page"
-    var agentUserPageNotificationsCenterAction: NotificationsCenterAction? {
+    var userPageAction: NotificationsCenterAction? {
         guard let agentName = notification.agentName,
               let url = customPrefixAgentNameURL(pageNamespace: .user) else {
             return nil
@@ -32,7 +32,7 @@ extension NotificationsCenterCommonViewModel {
     }
     
     //"Go to user page"
-    var agentUserPageSimplifiedAction: NotificationsCenterAction? {
+    var userPageSimplifiedAction: NotificationsCenterAction? {
         guard let url = customPrefixAgentNameURL(pageNamespace: .user) else {
             return nil
         }
@@ -45,7 +45,7 @@ extension NotificationsCenterCommonViewModel {
     }
 
     //"Go to diff"
-    var diffNotificationsCenterAction: NotificationsCenterAction? {
+    var diffAction: NotificationsCenterAction? {
         guard let url = fullTitleDiffURL else {
             return nil
         }
@@ -136,7 +136,7 @@ extension NotificationsCenterCommonViewModel {
     }
 
     //Go to specific Special:UserGroupRights#{Type} page
-    var specificUserGroupRightsNotificationsCenterAction: NotificationsCenterAction? {
+    var specificUserGroupRightsAction: NotificationsCenterAction? {
         guard let url = specificUserGroupRightsURL,
               let type = url.fragment,
               let title = url.wmf_title else {
@@ -149,7 +149,7 @@ extension NotificationsCenterCommonViewModel {
     }
 
     //"Go to Special:UserGroupRights"
-    var userGroupRightsNotificationsCenterAction: NotificationsCenterAction? {
+    var userGroupRightsAction: NotificationsCenterAction? {
         guard let url = userGroupRightsURL,
               let title = url.wmf_title else {
             return nil
@@ -161,7 +161,7 @@ extension NotificationsCenterCommonViewModel {
     }
     
     //"Go to Help:GettingStarted"
-    var gettingStartedNotificationsCenterAction: NotificationsCenterAction? {
+    var gettingStartedAction: NotificationsCenterAction? {
         guard let url = gettingStartedURL,
               let title = url.wmf_title else {
             return nil
@@ -176,7 +176,7 @@ extension NotificationsCenterCommonViewModel {
     var loginNotificationsText: String {
         WMFLocalizedString("notifications-center-login-notifications", value: "Login Notifications", comment: "Button text in Notifications Center that routes user to login notifications help page in web view.")
     }
-    var loginNotificationsNotificationsCenterAction: NotificationsCenterAction? {
+    var loginNotificationsAction: NotificationsCenterAction? {
         guard let url = loginNotificationsHelpURL else {
             return nil
         }
@@ -197,7 +197,7 @@ extension NotificationsCenterCommonViewModel {
     }
 
     //"Change password"
-    var changePasswordNotificationsCenterAction: NotificationsCenterAction? {
+    var changePasswordAction: NotificationsCenterAction? {
 
         guard let url = changePasswordURL else {
             return nil

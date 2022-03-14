@@ -57,7 +57,6 @@ extension NotificationsCenterCellViewModel {
 
         }
         
-        //TODO: add notification settings destination
         let notificationSubscriptionSettingsText = WMFLocalizedString("notifications-center-notifications-settings", value: "Notification settings", comment: "Button text in Notifications Center that automatically routes to the notifications settings screen.")
         let notificationSettingsActionData = NotificationsCenterActionData(text: notificationSubscriptionSettingsText, url: nil, iconType: nil)
         sheetActions.append(.notificationSubscriptionSettings(notificationSettingsActionData))
@@ -72,11 +71,11 @@ private extension NotificationsCenterCellViewModel {
     var userTalkPageActions: [NotificationsCenterAction] {
         var sheetActions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageNotificationsCenterAction {
+        if let agentUserPageAction = commonViewModel.userPageAction {
             sheetActions.append(agentUserPageAction)
         }
 
-        if let diffAction = commonViewModel.diffNotificationsCenterAction {
+        if let diffAction = commonViewModel.diffAction {
             sheetActions.append(diffAction)
         }
 
@@ -90,11 +89,11 @@ private extension NotificationsCenterCellViewModel {
     var mentionInTalkPageActions: [NotificationsCenterAction] {
         var sheetActions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageNotificationsCenterAction {
+        if let agentUserPageAction = commonViewModel.userPageAction {
             sheetActions.append(agentUserPageAction)
         }
 
-        if let diffAction = commonViewModel.diffNotificationsCenterAction {
+        if let diffAction = commonViewModel.diffAction {
             sheetActions.append(diffAction)
         }
 
@@ -113,11 +112,11 @@ private extension NotificationsCenterCellViewModel {
     var mentionInEditSummaryActions: [NotificationsCenterAction] {
         var sheetActions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageNotificationsCenterAction {
+        if let agentUserPageAction = commonViewModel.userPageAction {
             sheetActions.append(agentUserPageAction)
         }
 
-        if let diffAction = commonViewModel.diffNotificationsCenterAction {
+        if let diffAction = commonViewModel.diffAction {
             sheetActions.append(diffAction)
         }
 
@@ -131,11 +130,11 @@ private extension NotificationsCenterCellViewModel {
     var editRevertedActions: [NotificationsCenterAction] {
         var sheetActions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageNotificationsCenterAction {
+        if let agentUserPageAction = commonViewModel.userPageAction {
             sheetActions.append(agentUserPageAction)
         }
 
-        if let diffAction = commonViewModel.diffNotificationsCenterAction {
+        if let diffAction = commonViewModel.diffAction {
             sheetActions.append(diffAction)
         }
 
@@ -161,15 +160,15 @@ private extension NotificationsCenterCellViewModel {
     var userGroupRightsActions: [NotificationsCenterAction] {
         var sheetActions: [NotificationsCenterAction] = []
 
-        if let specificUserGroupRightsAction = commonViewModel.specificUserGroupRightsNotificationsCenterAction {
+        if let specificUserGroupRightsAction = commonViewModel.specificUserGroupRightsAction {
             sheetActions.append(specificUserGroupRightsAction)
         }
 
-        if let agentUserPageAction = commonViewModel.agentUserPageNotificationsCenterAction {
+        if let agentUserPageAction = commonViewModel.userPageAction {
             sheetActions.append(agentUserPageAction)
         }
 
-        if let userGroupRightsAction = commonViewModel.userGroupRightsNotificationsCenterAction {
+        if let userGroupRightsAction = commonViewModel.userGroupRightsAction {
             sheetActions.append(userGroupRightsAction)
         }
 
@@ -179,7 +178,7 @@ private extension NotificationsCenterCellViewModel {
     var pageReviewedActions: [NotificationsCenterAction] {
         var sheetActions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageNotificationsCenterAction {
+        if let agentUserPageAction = commonViewModel.userPageAction {
             sheetActions.append(agentUserPageAction)
         }
 
@@ -193,7 +192,7 @@ private extension NotificationsCenterCellViewModel {
     var pageLinkActions: [NotificationsCenterAction] {
         var sheetActions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageNotificationsCenterAction {
+        if let agentUserPageAction = commonViewModel.userPageAction {
             sheetActions.append(agentUserPageAction)
         }
 
@@ -207,7 +206,7 @@ private extension NotificationsCenterCellViewModel {
             sheetActions.append(titleAction)
         }
 
-        if let diffAction = commonViewModel.diffNotificationsCenterAction {
+        if let diffAction = commonViewModel.diffAction {
             sheetActions.append(diffAction)
         }
 
@@ -217,7 +216,7 @@ private extension NotificationsCenterCellViewModel {
     var connectionWithWikidataActions: [NotificationsCenterAction] {
         var sheetActions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageNotificationsCenterAction {
+        if let agentUserPageAction = commonViewModel.userPageAction {
             sheetActions.append(agentUserPageAction)
         }
 
@@ -233,7 +232,7 @@ private extension NotificationsCenterCellViewModel {
     }
 
     var emailFromOtherUserActions: [NotificationsCenterAction] {
-        if let agentUserPageAction = commonViewModel.agentUserPageNotificationsCenterAction {
+        if let agentUserPageAction = commonViewModel.userPageAction {
             return [agentUserPageAction]
         }
 
@@ -243,7 +242,7 @@ private extension NotificationsCenterCellViewModel {
     var thanksActions: [NotificationsCenterAction] {
         var sheetActions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageNotificationsCenterAction {
+        if let agentUserPageAction = commonViewModel.userPageAction {
             sheetActions.append(agentUserPageAction)
         }
 
@@ -251,7 +250,7 @@ private extension NotificationsCenterCellViewModel {
             sheetActions.append(titleAction)
         }
 
-        if let diffAction = commonViewModel.diffNotificationsCenterAction {
+        if let diffAction = commonViewModel.diffAction {
             sheetActions.append(diffAction)
         }
 
@@ -261,12 +260,12 @@ private extension NotificationsCenterCellViewModel {
     var loginActions: [NotificationsCenterAction] {
         var sheetActions: [NotificationsCenterAction] = []
 
-        if let loginHelpAction = commonViewModel.loginNotificationsNotificationsCenterAction {
+        if let loginHelpAction = commonViewModel.loginNotificationsAction {
             sheetActions.append(loginHelpAction)
         }
 
-        if let changePasswordNotificationsCenterAction = commonViewModel.changePasswordNotificationsCenterAction {
-            sheetActions.append(changePasswordNotificationsCenterAction)
+        if let changePasswordAction = commonViewModel.changePasswordAction {
+            sheetActions.append(changePasswordAction)
         }
 
         return sheetActions
@@ -280,13 +279,13 @@ private extension NotificationsCenterCellViewModel {
             sheetActions.append(contentsOf: secondaryNotificationsCenterActions)
         }
 
-        if let diffAction = commonViewModel.diffNotificationsCenterAction {
+        if let diffAction = commonViewModel.diffAction {
             sheetActions.append(diffAction)
         }
 
         if let primaryLink = notification.primaryLink,
-           let primaryNotificationsCenterAction = commonViewModel.actionForGenericLink(link: primaryLink) {
-            sheetActions.append(primaryNotificationsCenterAction)
+           let primaryAction = commonViewModel.actionForGenericLink(link: primaryLink) {
+            sheetActions.append(primaryAction)
         }
 
         return sheetActions
@@ -295,17 +294,17 @@ private extension NotificationsCenterCellViewModel {
     var genericActions: [NotificationsCenterAction] {
         var sheetActions: [NotificationsCenterAction] = []
 
-        if let agentUserPageAction = commonViewModel.agentUserPageNotificationsCenterAction {
+        if let agentUserPageAction = commonViewModel.userPageAction {
             sheetActions.append(agentUserPageAction)
         }
 
-        if let diffAction = commonViewModel.diffNotificationsCenterAction {
+        if let diffAction = commonViewModel.diffAction {
             sheetActions.append(diffAction)
         }
 
         if let primaryLink = notification.primaryLink,
-           let primaryNotificationsCenterAction = commonViewModel.actionForGenericLink(link: primaryLink) {
-            sheetActions.append(primaryNotificationsCenterAction)
+           let primaryAction = commonViewModel.actionForGenericLink(link: primaryLink) {
+            sheetActions.append(primaryAction)
         }
 
         return sheetActions
