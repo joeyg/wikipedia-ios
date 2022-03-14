@@ -5,11 +5,11 @@ extension NotificationsCenterDetailViewModel {
     var primaryAction: NotificationsCenterAction? {
         switch commonViewModel.notification.type {
         case .userTalkPageMessage:
-            if let talkPageAction = commonViewModel.titleTalkPageNotificationsCenterAction(yourPhrasing: true) {
+            if let talkPageAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: true) {
                 return talkPageAction
             }
         case .mentionInTalkPage:
-            if let titleTalkPageAction = commonViewModel.titleTalkPageNotificationsCenterAction(yourPhrasing: false) {
+            if let titleTalkPageAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: true) {
                 return titleTalkPageAction
             }
         case .editReverted,
@@ -18,10 +18,10 @@ extension NotificationsCenterDetailViewModel {
                 return diffAction
             }
         case .successfulMention,
-             .failedMention,
-             .pageReviewed,
-             .editMilestone:
-            if let titleAction = commonViewModel.titleSimplifiedAction {
+                .failedMention,
+                .pageReviewed,
+                .editMilestone:
+            if let titleAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: true) {
                 return titleAction
             }
         case .userRightsChange:
@@ -82,9 +82,10 @@ extension NotificationsCenterDetailViewModel {
         switch commonViewModel.notification.type {
         case .userTalkPageMessage:
             secondaryActions.append(contentsOf: userTalkPageActions)
-        case .mentionInTalkPage,
-             .editReverted:
-            secondaryActions.append(contentsOf: mentionInTalkAndEditRevertedPageActions)
+        case .mentionInTalkPage:
+            secondaryActions.append(contentsOf: mentionInTalkPageActions)
+        case .editReverted:
+            secondaryActions.append(contentsOf: editRevertedActions)
         case .mentionInEditSummary:
             secondaryActions.append(contentsOf: mentionInEditSummaryActions)
         case .successfulMention,
@@ -142,14 +143,18 @@ private extension NotificationsCenterDetailViewModel {
         return actions
     }
 
-    var mentionInTalkAndEditRevertedPageActions: [NotificationsCenterAction] {
+    var mentionInTalkPageActions: [NotificationsCenterAction] {
         var actions: [NotificationsCenterAction] = []
 
         if let agentUserPageAction = commonViewModel.agentUserPageSimplifiedAction {
             actions.append(agentUserPageAction)
         }
+        
+        if let diffAction = commonViewModel.diffNotificationsCenterAction {
+            actions.append(diffAction)
+        }
 
-        if let titleAction = commonViewModel.titleSimplifiedAction {
+        if let titleAction = commonViewModel.titleAction(convertToTalkOrMain: true, simplified: true) {
             actions.append(titleAction)
         }
 
@@ -163,7 +168,7 @@ private extension NotificationsCenterDetailViewModel {
             actions.append(agentUserPageAction)
         }
 
-        if let titleAction = commonViewModel.titleSimplifiedAction {
+        if let titleAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: true) {
             actions.append(titleAction)
         }
 
@@ -172,6 +177,24 @@ private extension NotificationsCenterDetailViewModel {
 
     var successfulAndFailedMentionActions: [NotificationsCenterAction] {
         return []
+    }
+    
+    var editRevertedActions: [NotificationsCenterAction] {
+        var actions: [NotificationsCenterAction] = []
+        
+        if let agentUserPageAction = commonViewModel.agentUserPageSimplifiedAction {
+            actions.append(agentUserPageAction)
+        }
+
+        if let talkTitleAction = commonViewModel.titleAction(convertToTalkOrMain: true, simplified: true) {
+            actions.append(talkTitleAction)
+        }
+        
+        if let titleAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: true) {
+            actions.append(titleAction)
+        }
+
+        return actions
     }
 
     var userGroupRightsActions: [NotificationsCenterAction] {
@@ -206,7 +229,7 @@ private extension NotificationsCenterDetailViewModel {
         }
         
         //Article you edited
-        if let titleAction = commonViewModel.titleSimplifiedAction {
+        if let titleAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: false) {
             actions.append(titleAction)
         }
 
@@ -224,7 +247,7 @@ private extension NotificationsCenterDetailViewModel {
             actions.append(agentUserPageAction)
         }
 
-        if let titleAction = commonViewModel.titleSimplifiedAction {
+        if let titleAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: true) {
             actions.append(titleAction)
         }
 
@@ -242,7 +265,7 @@ private extension NotificationsCenterDetailViewModel {
             actions.append(agentUserPageAction)
         }
 
-        if let titleAction = commonViewModel.titleSimplifiedAction {
+        if let titleAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: true) {
             actions.append(titleAction)
         }
 

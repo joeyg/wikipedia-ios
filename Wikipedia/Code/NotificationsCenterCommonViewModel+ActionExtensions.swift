@@ -16,7 +16,7 @@ struct NotificationsCenterActionData {
 //MARK: Private Helpers - Individual Swipe Action methods
 
 extension NotificationsCenterCommonViewModel {
-    //Go to [Username]'s user page
+    //"Go to [Username]'s user page"
     var agentUserPageNotificationsCenterAction: NotificationsCenterAction? {
         guard let agentName = notification.agentName,
               let url = customPrefixAgentNameURL(pageNamespace: .user) else {
@@ -31,7 +31,7 @@ extension NotificationsCenterCommonViewModel {
         return NotificationsCenterAction.custom(data)
     }
     
-    //Go to user page
+    //"Go to user page"
     var agentUserPageSimplifiedAction: NotificationsCenterAction? {
         guard let url = customPrefixAgentNameURL(pageNamespace: .user) else {
             return nil
@@ -44,7 +44,7 @@ extension NotificationsCenterCommonViewModel {
         return NotificationsCenterAction.custom(data)
     }
 
-    //Go to diff
+    //"Go to diff"
     var diffNotificationsCenterAction: NotificationsCenterAction? {
         guard let url = fullTitleDiffURL else {
             return nil
@@ -55,74 +55,64 @@ extension NotificationsCenterCommonViewModel {
         return NotificationsCenterAction.custom(data)
     }
 
-    //Go to [your?] talk page
-    
-    var goToTalkPageText: String {
-        WMFLocalizedString("notifications-center-go-to-talk-page", value: "Go to talk page", comment: "Button text in Notifications Center that routes to a talk page.")
-    }
-    
-    //TODO: try harder to preserve fragment here
-    func titleTalkPageNotificationsCenterAction(yourPhrasing: Bool = false) -> NotificationsCenterAction? {
+    /// Outputs various actions based on the notification title payload.
+    /// - Parameters:
+    ///   - convertToTalkOrMain: Pass true if you want to construct an action based on the talk-equivalent or main-equivalent of the title payload. For example, if the title payload indicates the notification sourced from an article talk page, passing true here will construct the action based on the main namespace, i.e. "Go to Cat" instead of "Go to Talk:Cat".`
+    ///   - simplified: Pass true if you want a generic phrasing of the action, that is, "Go to article" or "Go to talk page" instead of "Go to Cat" or "Go to Talk:Cat" respectively.
+    /// - Returns: NotificationsCenterAction struct, for use in view models.
+    func titleAction(convertToTalkOrMain: Bool, simplified: Bool) -> NotificationsCenterAction? {
         
         guard let linkData = linkData,
-              let namespace = linkData.titleNamespace,
-              let talkEquivalent = namespace.talkEquivalent,
-              let url = customPrefixTitleURL(pageNamespace: talkEquivalent) else {
-            return nil
-        }
-
-        let text = yourPhrasing ? WMFLocalizedString("notifications-center-go-to-your-talk-page", value: "Go to your talk page", comment: "Button text in Notifications Center that routes to user's talk page.") : goToTalkPageText
+              let normalizedTitle = linkData.title?.normalizedPageTitle,
+              let sourceNamespace = linkData.titleNamespace else {
+                  return nil
+              }
         
-        let data = NotificationsCenterActionData(text: text, url: url, iconType: NotificationsCenterIconType.document)
-        return NotificationsCenterAction.custom(data)
-    }
-
-    //Go to [Name of article]
-    var titleNotificationsCenterAction: NotificationsCenterAction? {
-        guard let linkData = linkData,
-              let url = fullTitleURL,
-              let title = notification.titleText else {
-            return nil
-        }
+        let namespace = convertToTalkOrMain ? (sourceNamespace.converted ?? sourceNamespace) : sourceNamespace
+        let yourPhrasing = notification.type == .userTalkPageMessage
         
-        var prefix = ""
-        if let namespace = linkData.titleNamespace {
-            prefix = namespace != .main ? "\(namespace.canonicalName):" : ""
-        }
-        let text = String.localizedStringWithFormat(CommonStrings.notificationsCenterGoToTitleFormat, "\(prefix)\(title)")
-        let data = NotificationsCenterActionData(text: text, url: url, iconType: NotificationsCenterIconType.document)
-        return NotificationsCenterAction.custom(data)
-    }
-    
-    //Go to article OR
-    //Go to talk page
-    //Fallback to titleNotificationsCenterAction if necessary
-    var titleSimplifiedAction: NotificationsCenterAction? {
-        guard let linkData = linkData,
-              let url = fullTitleURL else {
-            return nil
-        }
+        var text: String
+        var url: URL?
         
-        let text: String
-        if let namespace = linkData.titleNamespace {
-            switch namespace {
-            case .main:
+        let yourTalkPageText = WMFLocalizedString("notifications-center-go-to-your-talk-page", value: "Go to your talk page", comment: "Button text in Notifications Center that routes to user's talk page.")
+        
+        guard !simplified else {
+            
+            //Go to your talk page
+            //Go to talk page
+            //Go to article
+            
+            if yourPhrasing {
+                text = yourTalkPageText
+            } else if namespace == .talk || namespace == .userTalk {
+                text = WMFLocalizedString("notifications-center-go-to-talk-page", value: "Go to talk page", comment: "Button text in Notifications Center that routes to a talk page.")
+            } else {
                 text = WMFLocalizedString("notifications-center-go-to-article", value: "Go to article", comment: "Button text in Notifications Center that routes to an article.")
-            case .talk,
-                .userTalk:
-                text = goToTalkPageText
-            default:
-                return titleNotificationsCenterAction
             }
-        } else {
-            return titleNotificationsCenterAction
+            
+            url = customPrefixTitleURL(pageNamespace: namespace)
+            let data = NotificationsCenterActionData(text: text, url: url, iconType: NotificationsCenterIconType.document)
+            return NotificationsCenterAction.custom(data)
         }
         
+        //Go to your talk page
+        //Go to [UserTalk: Title]
+        //Go to [Talk: Title]
+        //Go to [Title]
+        
+        if yourPhrasing {
+            text = yourTalkPageText
+        } else {
+            let prefix = namespace != .main ? "\(namespace.canonicalName):" : ""
+            text = String.localizedStringWithFormat(CommonStrings.notificationsCenterGoToTitleFormat, "\(prefix)\(normalizedTitle)")
+        }
+        
+        url = customPrefixTitleURL(pageNamespace: namespace)
         let data = NotificationsCenterActionData(text: text, url: url, iconType: NotificationsCenterIconType.document)
         return NotificationsCenterAction.custom(data)
     }
 
-    //Go to [Article where link was made]
+    //"Go to [Article where link was made]"
     var pageLinkToAction: NotificationsCenterAction? {
         guard let url = pageLinkToURL,
               let title = url.wmf_title else {
@@ -134,7 +124,7 @@ extension NotificationsCenterCommonViewModel {
         return NotificationsCenterAction.custom(data)
     }
 
-    //Go to Wikidata item
+    //"Go to Wikidata item"
     var wikidataItemAction: NotificationsCenterAction? {
         guard let url = connectionWithWikidataItemURL else {
             return nil
@@ -158,7 +148,7 @@ extension NotificationsCenterCommonViewModel {
         return NotificationsCenterAction.custom(data)
     }
 
-    //Go to Special:UserGroupRights
+    //"Go to Special:UserGroupRights"
     var userGroupRightsNotificationsCenterAction: NotificationsCenterAction? {
         guard let url = userGroupRightsURL,
               let title = url.wmf_title else {
@@ -170,7 +160,7 @@ extension NotificationsCenterCommonViewModel {
         return NotificationsCenterAction.custom(data)
     }
     
-    //Go to Help:GettingStarted
+    //"Go to Help:GettingStarted"
     var gettingStartedNotificationsCenterAction: NotificationsCenterAction? {
         guard let url = gettingStartedURL,
               let title = url.wmf_title else {
@@ -182,7 +172,7 @@ extension NotificationsCenterCommonViewModel {
         return NotificationsCenterAction.custom(data)
     }
 
-    //Login Notifications
+    //"Login Notifications"
     var loginNotificationsText: String {
         WMFLocalizedString("notifications-center-login-notifications", value: "Login Notifications", comment: "Button text in Notifications Center that routes user to login notifications help page in web view.")
     }
@@ -195,7 +185,7 @@ extension NotificationsCenterCommonViewModel {
         return NotificationsCenterAction.custom(data)
     }
     
-    //Go to Login Notifications
+    //"Go to Login Notifications"
     var loginNotificationsGoToAction: NotificationsCenterAction? {
         guard let url = loginNotificationsHelpURL else {
             return nil
@@ -206,7 +196,7 @@ extension NotificationsCenterCommonViewModel {
         return NotificationsCenterAction.custom(data)
     }
 
-    //Change password
+    //"Change password"
     var changePasswordNotificationsCenterAction: NotificationsCenterAction? {
 
         guard let url = changePasswordURL else {

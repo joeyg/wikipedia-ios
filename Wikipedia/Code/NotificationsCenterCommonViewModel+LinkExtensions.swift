@@ -167,7 +167,7 @@ extension NotificationsCenterCommonViewModel {
     /// Only does this for user talk page types, to allow deep linking into a particular topic
     private func fragementedURL(url: URL, linkData: LinkData) -> URL? {
         guard let namespace = linkData.titleNamespace,
-              namespace == .userTalk,
+              (namespace == .userTalk || namespace == .talk),
               var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
             return url
         }

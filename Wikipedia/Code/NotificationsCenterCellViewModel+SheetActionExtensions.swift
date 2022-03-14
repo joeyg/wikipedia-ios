@@ -16,14 +16,15 @@ extension NotificationsCenterCellViewModel {
         switch notification.type {
         case .userTalkPageMessage:
             sheetActions.append(contentsOf: userTalkPageActions)
-        case .mentionInTalkPage,
-             .editReverted:
-            sheetActions.append(contentsOf: mentionInTalkAndEditRevertedPageActions)
+        case .mentionInTalkPage:
+            sheetActions.append(contentsOf: mentionInTalkPageActions)
         case .mentionInEditSummary:
             sheetActions.append(contentsOf: mentionInEditSummaryActions)
         case .successfulMention,
              .failedMention:
             sheetActions.append(contentsOf: successfulAndFailedMentionActions)
+        case .editReverted:
+            sheetActions.append(contentsOf: editRevertedActions)
         case .userRightsChange:
             sheetActions.append(contentsOf: userGroupRightsActions)
         case .pageReviewed:
@@ -79,14 +80,14 @@ private extension NotificationsCenterCellViewModel {
             sheetActions.append(diffAction)
         }
 
-        if let talkPageAction = commonViewModel.titleTalkPageNotificationsCenterAction(yourPhrasing: true) {
+        if let talkPageAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: true) {
             sheetActions.append(talkPageAction)
         }
 
         return sheetActions
     }
 
-    var mentionInTalkAndEditRevertedPageActions: [NotificationsCenterAction] {
+    var mentionInTalkPageActions: [NotificationsCenterAction] {
         var sheetActions: [NotificationsCenterAction] = []
 
         if let agentUserPageAction = commonViewModel.agentUserPageNotificationsCenterAction {
@@ -97,11 +98,12 @@ private extension NotificationsCenterCellViewModel {
             sheetActions.append(diffAction)
         }
 
-        if let titleTalkPageAction = commonViewModel.titleTalkPageNotificationsCenterAction(yourPhrasing: false) {
+        if let titleTalkPageAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: false) {
             sheetActions.append(titleTalkPageAction)
         }
 
-        if let titleAction = commonViewModel.titleNotificationsCenterAction {
+        //TODO: If mention occurs on a User Talk page, this results in duplicate actions here and on the detail view model. Need to check if titleAction == titleTalkPageAction here and not append in this case.
+        if let titleAction = commonViewModel.titleAction(convertToTalkOrMain: true, simplified: false) {
             sheetActions.append(titleAction)
         }
 
@@ -119,7 +121,29 @@ private extension NotificationsCenterCellViewModel {
             sheetActions.append(diffAction)
         }
 
-        if let titleAction = commonViewModel.titleNotificationsCenterAction {
+        if let titleAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: false) {
+            sheetActions.append(titleAction)
+        }
+
+        return sheetActions
+    }
+    
+    var editRevertedActions: [NotificationsCenterAction] {
+        var sheetActions: [NotificationsCenterAction] = []
+
+        if let agentUserPageAction = commonViewModel.agentUserPageNotificationsCenterAction {
+            sheetActions.append(agentUserPageAction)
+        }
+
+        if let diffAction = commonViewModel.diffNotificationsCenterAction {
+            sheetActions.append(diffAction)
+        }
+
+        if let titleTalkPageAction = commonViewModel.titleAction(convertToTalkOrMain: true, simplified: false) {
+            sheetActions.append(titleTalkPageAction)
+        }
+
+        if let titleAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: false) {
             sheetActions.append(titleAction)
         }
 
@@ -127,7 +151,7 @@ private extension NotificationsCenterCellViewModel {
     }
 
     var successfulAndFailedMentionActions: [NotificationsCenterAction] {
-        if let titleAction = commonViewModel.titleNotificationsCenterAction {
+        if let titleAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: false) {
             return [titleAction]
         }
 
@@ -159,7 +183,7 @@ private extension NotificationsCenterCellViewModel {
             sheetActions.append(agentUserPageAction)
         }
 
-        if let titleAction = commonViewModel.titleNotificationsCenterAction {
+        if let titleAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: false) {
             sheetActions.append(titleAction)
         }
 
@@ -179,7 +203,7 @@ private extension NotificationsCenterCellViewModel {
         }
         
         //Article you edited
-        if let titleAction = commonViewModel.titleNotificationsCenterAction {
+        if let titleAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: false) {
             sheetActions.append(titleAction)
         }
 
@@ -197,7 +221,7 @@ private extension NotificationsCenterCellViewModel {
             sheetActions.append(agentUserPageAction)
         }
 
-        if let titleAction = commonViewModel.titleNotificationsCenterAction {
+        if let titleAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: false) {
             sheetActions.append(titleAction)
         }
 
@@ -223,7 +247,7 @@ private extension NotificationsCenterCellViewModel {
             sheetActions.append(agentUserPageAction)
         }
 
-        if let titleAction = commonViewModel.titleNotificationsCenterAction {
+        if let titleAction = commonViewModel.titleAction(convertToTalkOrMain: false, simplified: false) {
             sheetActions.append(titleAction)
         }
 
