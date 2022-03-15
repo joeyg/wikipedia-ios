@@ -518,7 +518,6 @@ extension NotificationsCenterViewController: UICollectionViewDelegate {
     }
     
     func navigateToDetailView(cellViewModel: NotificationsCenterCellViewModel) {
-        //navigate(to: primaryURL)
         let detailViewModel = NotificationsCenterDetailViewModel(commonViewModel: cellViewModel.commonViewModel)
         let detailVC = NotificationsCenterDetailViewController(viewModel: detailViewModel)
         navigationController?.pushViewController(detailVC, animated: true)
