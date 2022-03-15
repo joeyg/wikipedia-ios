@@ -1,5 +1,6 @@
 
 import Foundation
+import WMF
 
 enum NotificationsCenterAction {
     case markAsReadOrUnread(NotificationsCenterActionData)
@@ -58,7 +59,7 @@ extension NotificationsCenterCommonViewModel {
     /// Outputs various actions based on the notification title payload.
     /// - Parameters:
     ///   - convertToTalkOrMain: Pass true if you want to construct an action based on the talk-equivalent or main-equivalent of the title payload. For example, if the title payload indicates the notification sourced from an article talk page, passing true here will construct the action based on the main namespace, i.e. "Go to Cat" instead of "Go to Talk:Cat".`
-    ///   - simplified: Pass true if you want a generic phrasing of the action, that is, "Go to article" or "Go to talk page" instead of "Go to Cat" or "Go to Talk:Cat" respectively.
+    ///   - simplified: Pass true if you want a generic phrasing of the action, i.e., "Go to article" or "Go to talk page" instead of "Go to Cat" or "Go to Talk:Cat" respectively.
     /// - Returns: NotificationsCenterAction struct, for use in view models.
     func titleAction(convertToTalkOrMain: Bool, simplified: Bool) -> NotificationsCenterAction? {
         
@@ -70,9 +71,6 @@ extension NotificationsCenterCommonViewModel {
         
         let namespace = convertToTalkOrMain ? (sourceNamespace.converted ?? sourceNamespace) : sourceNamespace
         let yourPhrasing = notification.type == .userTalkPageMessage
-        
-        var text: String
-        var url: URL?
         
         let yourTalkPageText: String
         switch project {
@@ -91,9 +89,11 @@ extension NotificationsCenterCommonViewModel {
             //Go to article
             
             if yourPhrasing {
-                text = yourTalkPageText
+                let text = yourTalkPageText
+                return titleAction(text: text, namespace: namespace, normalizedTitle: normalizedTitle)
             } else if namespace == .talk || namespace == .userTalk {
                 
+                let text: String
                 switch project {
                 case .wikipedia:
                     text = WMFLocalizedString("notifications-center-go-to-talk-page", value: "Go to talk page", comment: "Button text in Notifications Center that routes to a talk page.")
@@ -103,14 +103,20 @@ extension NotificationsCenterCommonViewModel {
                     text = WMFLocalizedString("notifications-center-go-to-discussion-page", value: "Go to discussion page", comment: "Button text in Notifications Center that routes to a discussion page.")
                 }
                 
+                return titleAction(text: text, namespace: namespace, normalizedTitle: normalizedTitle)
+                
             } else {
                 
-                text = WMFLocalizedString("notifications-center-go-to-article", value: "Go to article", comment: "Button text in Notifications Center that routes to an article.")
+                let text: String?
+                switch project {
+                case .wikipedia:
+                    text = WMFLocalizedString("notifications-center-go-to-article", value: "Go to article", comment: "Button text in Notifications Center that routes to an article.")
+                default:
+                    text = nil
+                }
+                
+                return titleAction(text: text, namespace: namespace, normalizedTitle: normalizedTitle)
             }
-            
-            url = customPrefixTitleURL(pageNamespace: namespace)
-            let data = NotificationsCenterActionData(text: text, url: url, iconType: NotificationsCenterIconType.document)
-            return NotificationsCenterAction.custom(data)
         }
         
         //Go to your talk page
@@ -118,15 +124,16 @@ extension NotificationsCenterCommonViewModel {
         //Go to [Talk: Title]
         //Go to [Title]
         
-        if yourPhrasing {
-            text = yourTalkPageText
-        } else {
-            let prefix = namespace != .main ? "\(namespace.canonicalName):" : ""
-            text = String.localizedStringWithFormat(CommonStrings.notificationsCenterGoToTitleFormat, "\(prefix)\(normalizedTitle)")
-        }
+        let text = yourPhrasing ? yourTalkPageText : nil
+        return titleAction(text: text, namespace: namespace, normalizedTitle: normalizedTitle)
+    }
+    
+    private func titleAction(text: String?, namespace: PageNamespace, normalizedTitle: String) -> NotificationsCenterAction {
+        let prefix = namespace != .main ? "\(namespace.canonicalName):" : ""
+        let actionText = text ?? String.localizedStringWithFormat(CommonStrings.notificationsCenterGoToTitleFormat, "\(prefix)\(normalizedTitle)")
         
-        url = customPrefixTitleURL(pageNamespace: namespace)
-        let data = NotificationsCenterActionData(text: text, url: url, iconType: NotificationsCenterIconType.document)
+        let url = customPrefixTitleURL(pageNamespace: namespace)
+        let data = NotificationsCenterActionData(text: actionText, url: url, iconType: NotificationsCenterIconType.document)
         return NotificationsCenterAction.custom(data)
     }
 
