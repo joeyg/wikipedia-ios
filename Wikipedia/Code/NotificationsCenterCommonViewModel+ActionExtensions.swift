@@ -74,7 +74,15 @@ extension NotificationsCenterCommonViewModel {
         var text: String
         var url: URL?
         
-        let yourTalkPageText = WMFLocalizedString("notifications-center-go-to-your-talk-page", value: "Go to your talk page", comment: "Button text in Notifications Center that routes to user's talk page.")
+        let yourTalkPageText: String
+        switch project {
+        case .wikipedia:
+            yourTalkPageText = WMFLocalizedString("notifications-center-go-to-your-talk-page", value: "Go to your talk page", comment: "Button text in Notifications Center that routes to user's talk page.")
+        case .wikinews:
+            yourTalkPageText = WMFLocalizedString("notifications-center-go-to-your-collaboration-page", value: "Go to your collaboration page", comment: "Button text in Notifications Center that routes to user's collaboration page.")
+        default:
+            yourTalkPageText = WMFLocalizedString("notifications-center-go-to-your-discussion-page", value: "Go to your discussion page", comment: "Button text in Notifications Center that routes to user's discussion page.")
+        }
         
         guard !simplified else {
             
@@ -85,8 +93,18 @@ extension NotificationsCenterCommonViewModel {
             if yourPhrasing {
                 text = yourTalkPageText
             } else if namespace == .talk || namespace == .userTalk {
-                text = WMFLocalizedString("notifications-center-go-to-talk-page", value: "Go to talk page", comment: "Button text in Notifications Center that routes to a talk page.")
+                
+                switch project {
+                case .wikipedia:
+                    text = WMFLocalizedString("notifications-center-go-to-talk-page", value: "Go to talk page", comment: "Button text in Notifications Center that routes to a talk page.")
+                case .wikinews:
+                    text = WMFLocalizedString("notifications-center-go-to-collaboration-page", value: "Go to collaboration page", comment: "Button text in Notifications Center that routes to a collaboration page.")
+                default:
+                    text = WMFLocalizedString("notifications-center-go-to-discussion-page", value: "Go to discussion page", comment: "Button text in Notifications Center that routes to a discussion page.")
+                }
+                
             } else {
+                
                 text = WMFLocalizedString("notifications-center-go-to-article", value: "Go to article", comment: "Button text in Notifications Center that routes to an article.")
             }
             
@@ -203,7 +221,7 @@ extension NotificationsCenterCommonViewModel {
             return nil
         }
 
-        let text = WMFLocalizedString("notifications-center-change-password", value: "Change Password", comment: "Button text in Notifications Center that routes user to change password screen.")
+        let text = CommonStrings.notificationsChangePassword
 
         let data = NotificationsCenterActionData(text: text, url: url, iconType: NotificationsCenterIconType.lock)
         return NotificationsCenterAction.custom(data)

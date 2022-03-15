@@ -43,7 +43,17 @@ extension NotificationsCenterCommonViewModel {
         switch notification.type {
         case .userTalkPageMessage:
             guard let topicTitle = topicTitleFromTalkPageNotification else {
-                return WMFLocalizedString("notifications-center-subheader-message-user-talk-page", value: "Message on your talk page", comment: "Subheader text for user talk page message notifications in Notifications Center.")
+                let text: String
+                switch project {
+                case .wikipedia:
+                    text = WMFLocalizedString("notifications-center-subheader-message-user-talk-page", value: "Message on your talk page", comment: "Subheader text for user talk page message notifications in Notifications Center.")
+                case .wikinews:
+                    text = WMFLocalizedString("notifications-center-subheader-message-user-collaboration-page", value: "Message on your collaboration page", comment: "Subheader text for user collaboration page message Wikinews notification in Notifications Center.")
+                default:
+                    text = WMFLocalizedString("notifications-center-subheader-message-user-discussion-page", value: "Message on your collaboration page", comment: "Subheader text for user discussion page message notification in Notifications Center.")
+                }
+                
+                return text
             }
             
             return topicTitle
@@ -54,10 +64,28 @@ extension NotificationsCenterCommonViewModel {
                 guard let namespace = PageNamespace(rawValue: Int(notification.titleNamespaceKey)),
                       namespace == .talk else {
                     //TODO: Should we target other talk page types and have a more specific string? See PageNamespace options.
-                    return WMFLocalizedString("notifications-center-subheader-mention-talk-page", value: "Mention on talk page", comment: "Subheader text for non-Talk namespace mention notifications in Notifications Center.")
+                      let text: String
+                      switch project {
+                      case .wikipedia:
+                          text = WMFLocalizedString("notifications-center-subheader-mention-talk-page", value: "Mention on talk page", comment: "Subheader text for non-article talk page mention notifications in Notifications Center.")
+                      case .wikinews:
+                          text = WMFLocalizedString("notifications-center-subheader-mention-collaboration-page", value: "Mention on collaboration page", comment: "Subheader text for non-article collaboration page mention notifications in Notifications Center.")
+                      default:
+                          text = WMFLocalizedString("notifications-center-wikinews-subheader-message-user-discussion-page", value: "Message on your collaboration page", comment: "Subheader text for non-article discussion page mention notification in Notifications Center.")
+                      }
+                    return text
                 }
                 
-                return WMFLocalizedString("notifications-center-subheader-mention-article-talk-page", value: "Mention on article talk page", comment: "Subheader text for Talk namespace mention notifications in Notifications Center.")
+                let text: String
+                switch project {
+                case .wikipedia:
+                    text = WMFLocalizedString("notifications-center-subheader-mention-article-talk-page", value: "Mention on article talk page", comment: "Subheader text for article talk page mention notifications in Notifications Center.")
+                case .wikinews:
+                    text = WMFLocalizedString("notifications-center-subheader-mention-article-collaboration-page", value: "Mention on article collaboration page", comment: "Subheader text for article collaboration page mention notifications in Notifications Center.")
+                default:
+                    text = WMFLocalizedString("notifications-center-subheader-mention-article-discussion-page", value: "Mention on article discussion page", comment: "Subheader text for article discussion page mention mention notifications in Notifications Center.")
+                }
+                return text
             }
             
             return topicTitle
