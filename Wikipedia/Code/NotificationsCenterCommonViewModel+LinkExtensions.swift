@@ -63,11 +63,13 @@ extension NotificationsCenterCommonViewModel {
     func customPrefixTitleURL(pageNamespace: PageNamespace) -> URL? {
         guard let data = linkData,
               let title = data.title,
-              let prefix = pageNamespace.canonicalName.denormalizedPageTitle else {
+              let denormalizedNamespace = pageNamespace.canonicalName.denormalizedPageTitle else {
             return nil
         }
+        
+        let prefix = pageNamespace != .main ? "\(denormalizedNamespace):" : ""
 
-        guard let url = configuration.articleURLForHost(data.host, languageVariantCode: data.languageVariantCode, appending: ["\(prefix):\(title)"]) else {
+        guard let url = configuration.articleURLForHost(data.host, languageVariantCode: data.languageVariantCode, appending: ["\(prefix + title)"]) else {
             return nil
         }
 
