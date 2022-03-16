@@ -1,0 +1,57 @@
+{
+    "batchcomplete": true,
+    "limits": {
+        "notifications": 50
+    },
+    "query": {
+        "notifications": {
+            "list": [{
+                "wiki": "enwiki",
+                "id": -1,
+                "type": "foreign",
+                "category": "other",
+                "section": "all",
+                "timestamp": {
+                    "utciso8601": "2022-03-14T15:22:52Z",
+                    "utcunix": 1647271372,
+                    "unix": "1647271372",
+                    "utcmw": "20220314152252",
+                    "mw": "20220314152252",
+                    "date": "14 March"
+                },
+                "agent": {
+                    "id": 35904678,
+                    "name": "Jack The Cat"
+                },
+                "targetpages": [],
+                "*": {
+                    "header": "More notifications from 2 other wikis",
+                    "compactHeader": "More notifications from 2 other wikis",
+                    "body": "Test Wikipedia and MediaWiki",
+                    "icon": "global",
+                    "links": {
+                        "primary": [],
+                        "secondary": []
+                    },
+                    "iconUrl": "/w/extensions/Echo/modules/icons/global-progressive.svg"
+                },
+                "count": 3,
+                "sources": {
+                    "testwiki": {
+                        "title": "Test Wikipedia",
+                        "url": "https://test.wikipedia.org/w/api.php",
+                        "base": "https://test.wikipedia.org/wiki/$1",
+                        "ts": "2022-03-14T15:22:52Z"
+                    },
+                    "mediawikiwiki": {
+                        "title": "MediaWiki",
+                        "url": "https://www.mediawiki.org/w/api.php",
+                        "base": "https://www.mediawiki.org/wiki/$1",
+                        "ts": "2021-04-08T18:12:19Z"
+                    }
+                }
+            }],
+            "continue": "1569862285|172771996"
+        }
+    }
+}

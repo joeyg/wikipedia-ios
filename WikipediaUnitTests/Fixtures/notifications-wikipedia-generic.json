@@ -1,0 +1,64 @@
+{
+    "batchcomplete": true,
+    "limits": {
+        "notifications": 50
+    },
+    "query": {
+        "notifications": {
+            "list": [{
+                "wiki": "enwiki",
+                "id": 181035797,
+                "type": "pagetriage-add-maintenance-tag",
+                "category": "page-review",
+                "section": "alert",
+                "timestamp": {
+                    "utciso8601": "2020-01-25T01:35:50Z",
+                    "utcunix": 1579916150,
+                    "unix": "1579916150",
+                    "utcmw": "20200125013550",
+                    "mw": "20200125013550",
+                    "date": "25 January"
+                },
+                "title": {
+                    "full": "Black Bird",
+                    "namespace": "",
+                    "namespace-key": 0,
+                    "text": "Black Bird"
+                },
+                "agent": {
+                    "id": 15250126,
+                    "name": "Fred The Bird"
+                },
+                "targetpages": [],
+                "*": {
+                    "header": "A reviewer suggested improvements to the page <b>Bird</b>. Tags: notability, blp sources.",
+                    "compactHeader": "A reviewer suggested improvements to the page <b>Bird</b>. Tags: notability, blp sources.",
+                    "body": "",
+                    "icon": "reviewed",
+                    "links": {
+                        "primary": {
+                            "url": "https://en.wikipedia.org/wiki/Black_Bird?markasread=181035797&markasreadwiki=enwiki",
+                            "label": "View page"
+                        },
+                        "secondary": [{
+                            "url": "https://en.wikipedia.org/wiki/User:Fred_The_Bird",
+                            "label": "FredTheBird",
+                            "tooltip": "",
+                            "description": "",
+                            "icon": "userAvatar",
+                            "prioritized": true
+                        }, {
+                            "label": "Thank",
+                            "url": "https://en.wikipedia.org/wiki/Special:Thanks/937441471",
+                            "icon": "thanks",
+                            "description": "Publicly thank the reviewer",
+                            "prioritized": true
+                        }]
+                    },
+                    "iconUrl": "/w/extensions/Echo/modules/icons/articleCheck-progressive.svg"
+                }
+            }],
+            "continue": "1569862285|172771996"
+        }
+    }
+}

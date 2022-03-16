@@ -53,7 +53,7 @@ final class RemoteNotificationsModelController {
     
     static let modelName = "RemoteNotifications"
 
-    required init() throws {
+    required init(containerURL: URL) throws {
         let modelName = RemoteNotificationsModelController.modelName
         let modelExtension = "momd"
         let modelBundle = Bundle.wmf
@@ -68,8 +68,7 @@ final class RemoteNotificationsModelController {
             throw error
         }
         let container = NSPersistentContainer(name: modelName, managedObjectModel: model)
-        let sharedAppContainerURL = FileManager.default.wmf_containerURL()
-        let remoteNotificationsStorageURL = sharedAppContainerURL.appendingPathComponent("\(modelName).sqlite")
+        let remoteNotificationsStorageURL = containerURL.appendingPathComponent("\(modelName).sqlite")
 
         let description = NSPersistentStoreDescription(url: remoteNotificationsStorageURL)
         container.persistentStoreDescriptions = [description]
