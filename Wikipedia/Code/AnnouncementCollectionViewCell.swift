@@ -232,6 +232,7 @@ extension AnnouncementCollectionViewCell: Themeable {
         dismissButton.setTitleColor(theme.colors.secondaryText, for: .normal)
         imageView.backgroundColor = theme.colors.midBackground
         imageView.alpha = theme.imageOpacity
+        imageView.backgroundColor = .clear
         actionButton.setTitleColor(theme.colors.link, for: .normal)
         actionButton.backgroundColor = theme.colors.cardButtonBackground
         messageLineHeightMultiple = 1.25
