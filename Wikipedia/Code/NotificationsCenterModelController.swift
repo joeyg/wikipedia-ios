@@ -72,11 +72,11 @@ final class NotificationsCenterModelController {
             
         }
         
-        updateCellDisplayStates(cellViewModels: viewModelsToUpdate, isEditing: isEditing)
+        let reconfigureCellsUpdate = updateCellDisplayStates(cellViewModels: viewModelsToUpdate, isEditing: isEditing)
         
         var updateTypes: [NotificationsCenterUpdateType] = []
-        if viewModelsToUpdate.count > 0 {
-            updateTypes.append(.reconfigureCells(viewModelsToUpdate))
+        if let reconfigureCellsUpdate = reconfigureCellsUpdate {
+            updateTypes.append(reconfigureCellsUpdate)
         }
         
         if didRemoveValueFromTrackingProperties {
@@ -94,18 +94,17 @@ final class NotificationsCenterModelController {
         
         let cellViewModels = cellViewModels ?? Array(self.cellViewModels)
         
-        var dataChanged = false
-        
+        var viewModelsToReconfigure: [NotificationsCenterCellViewModel] = []
         cellViewModels.forEach { cellViewModel in
             
             let oldDisplayState = cellViewModel.displayState
             cellViewModel.updateDisplayState(isEditing: isEditing, isSelected: isSelected)
             if cellViewModel.displayState != oldDisplayState {
-                    dataChanged = true
+                viewModelsToReconfigure.append(cellViewModel)
             }
         }
         
-        return dataChanged ? .reconfigureCells(cellViewModels) : nil
+        return viewModelsToReconfigure.count > 0 ? .reconfigureCells(viewModelsToReconfigure) : nil
     }
     
     func reset() {

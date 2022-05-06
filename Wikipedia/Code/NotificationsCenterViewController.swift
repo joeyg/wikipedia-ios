@@ -84,6 +84,8 @@ final class NotificationsCenterViewController: ViewController {
         scrollView = notificationsView.collectionView
     }
 
+    private let refreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -101,7 +103,16 @@ final class NotificationsCenterViewController: ViewController {
         cellPanGestureRecognizer.delegate = self
 
         NotificationCenter.default.addObserver(self, selector: #selector(applicationWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
+        
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
+        notificationsView.collectionView.refreshControl = refreshControl
     }
+
+    @objc private func refresh(_ sender: Any) {
+        viewModel.refreshNotifications(force: true) { [weak self] in
+            self?.refreshControl.endRefreshing()
+        }
+     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -239,6 +250,7 @@ private extension NotificationsCenterViewController {
     func reconfigureCells(with viewModels: [NotificationsCenterCellViewModel]? = nil) {
         
         if #available(iOS 15.0, *) {
+            print("‼️reconfigureCellsCall: \(viewModels?.count ?? 0)")
             snapshotUpdateQueue.async {
                 if var snapshot = self.dataSource?.snapshot() {
                     

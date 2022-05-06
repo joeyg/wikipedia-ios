@@ -150,7 +150,7 @@ final class NotificationsCenterViewModel: NSObject {
         delegate?.update(types: [.emptyDisplay(true), .toolbarDisplay])
     }
     
-    func refreshNotifications(force: Bool) {
+    func refreshNotifications(force: Bool, completion: (() -> Void)? = nil) {
         remoteNotificationsController.loadNotifications(force: force) { result in
             switch result {
             case .failure(let error):
@@ -159,6 +159,7 @@ final class NotificationsCenterViewModel: NSObject {
             default:
                 break
             }
+            completion?()
         }
     }
     
