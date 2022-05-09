@@ -215,7 +215,7 @@ public enum RemoteNotificationsControllerError: LocalizedError {
         }
         
         let appLanguageProject =  RemoteNotificationsProject.wikipedia(appLanguage.languageCode, appLanguage.localizedName, appLanguage.languageVariantCode)
-        apiController.markAllAsSeen(project: appLanguageProject, completion: completion)
+//        apiController.markAllAsSeen(project: appLanguageProject, completion: completion)
     }
     
     /// Passthrough method to listen for NSManagedObjectContextObjectsDidChange notifications on the viewContext, in order to encapsulate viewContext within the WMF Framework.

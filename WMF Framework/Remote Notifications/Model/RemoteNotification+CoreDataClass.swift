@@ -61,21 +61,21 @@ public class RemoteNotification: NSManagedObject {
             
             switch section {
             case "alert":
-                return .unknownSystemAlert
+                return .other
             case "message":
-                return .unknownSystemNotice
+                return .other
             default:
-                return .unknown
+                return .other
             }
             
         default:
             switch section {
             case "alert":
-                return .unknownAlert
+                return .other
             case "message":
-                return .unknownNotice
+                return .other
             default:
-                return .unknown
+                return .other
             }
         }
     }
@@ -116,8 +116,11 @@ public class RemoteNotification: NSManagedObject {
             return ["login-fail"]
         case .loginSuccessUnknownDevice:
             return ["login-success"]
+            
+        case .other:
+            return ["other"]
         default:
-            return []
+            return ["other"]
         }
     }
     
@@ -158,7 +161,7 @@ public class RemoteNotification: NSManagedObject {
         case .loginSuccessUnknownDevice:
             return ["login-success"]
         default:
-            return []
+            return ["other"]
         }
     }
 

@@ -24,6 +24,7 @@ public enum RemoteNotificationType: Hashable {
     case unknownNotice //No specific type ID, notice type
     case unknownAlert //No specific type ID, alert type
     case unknown
+    case other
     
 //Possible flow-related notifications to target. Leaving it to default handling for now but we may need to bring these in for special handling.
 //    case flowUserTalkPageNewTopic //Message on your talk page
@@ -157,6 +158,8 @@ public extension RemoteNotificationType {
             return "thanks"
         case .welcome:
             return "welcome"
+        case .other:
+            return "other"
         default:
             return nil
         }
@@ -183,7 +186,8 @@ public extension RemoteNotificationType {
             .editMilestone,
             .translationMilestone(1), //for filters this represents other translation associated values as well (ten, hundred milestones).
             .thanks,
-            .welcome
+            .welcome,
+            .other
         ]
     }
     
@@ -231,6 +235,8 @@ public extension RemoteNotificationType {
         case .unknownSystemNotice,
                 .unknownNotice:
             return CommonStrings.notificationsCenterNotice
+        case .other:
+            return "Other" //do WMF string
         }
     }
 }
@@ -279,6 +285,8 @@ public extension RemoteNotificationType {
             return (.passive, 0.7)
         case .loginFailUnknownDevice, .loginFailKnownDevice:
             return (.active, 0.85)
+        case .other:
+            return (.passive, 0.15)
         default:
             return (.passive, 0.1)
         }
