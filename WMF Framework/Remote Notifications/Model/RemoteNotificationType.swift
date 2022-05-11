@@ -161,7 +161,7 @@ public extension RemoteNotificationType {
         case .other:
             return "other"
         default:
-            return nil
+            return "other"
         }
     }
 }
@@ -285,8 +285,6 @@ public extension RemoteNotificationType {
             return (.passive, 0.7)
         case .loginFailUnknownDevice, .loginFailKnownDevice:
             return (.active, 0.85)
-        case .other:
-            return (.passive, 0.15)
         default:
             return (.passive, 0.1)
         }

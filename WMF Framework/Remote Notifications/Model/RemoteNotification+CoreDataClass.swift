@@ -116,7 +116,6 @@ public class RemoteNotification: NSManagedObject {
             return ["login-fail"]
         case .loginSuccessUnknownDevice:
             return ["login-success"]
-            
         case .other:
             return ["other"]
         default:
@@ -160,6 +159,8 @@ public class RemoteNotification: NSManagedObject {
             return ["login-fail-new", "login-fail-known"]
         case .loginSuccessUnknownDevice:
             return ["login-success"]
+        case .other:
+            return ["other"]
         default:
             return ["other"]
         }
