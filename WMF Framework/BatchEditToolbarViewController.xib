@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -36,6 +35,7 @@
                     </constraints>
                 </stackView>
             </subviews>
+            <viewLayoutGuide key="safeArea" id="RXU-0L-PwE"/>
             <constraints>
                 <constraint firstItem="fWi-hH-Agp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="I1D-Ye-H4m"/>
                 <constraint firstItem="gnJ-Br-g7q" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="QA2-BJ-6fF"/>
@@ -47,7 +47,6 @@
                 <constraint firstItem="fWi-hH-Agp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="lhX-uf-Re3"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="RXU-0L-PwE"/>
             <point key="canvasLocation" x="354" y="-264.5"/>
         </view>
     </objects>
