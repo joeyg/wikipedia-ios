@@ -1,4 +1,4 @@
-@import WMF.WMFLegacyFetcher;
+#import <WMF/WMFLegacyFetcher.h>
 
 /*
    Note about langlinks:

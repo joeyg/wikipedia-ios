@@ -1,9 +1,9 @@
 #import "MWKLanguageLinkFetcher.h"
-@import WMF.NSURL_WMFLinkParsing;
-@import WMF.Swift;
-@import WMF.MWKLanguageLink;
-@import WMF.MWKLanguageLinkController;
-@import WMF.WMFComparison;
+#import <WMF/NSURL+WMFLinkParsing.h>
+#import <WMF/WMF-Swift.h>
+#import <WMF/MWKLanguageLink.h>
+#import <WMF/MWKLanguageLinkController.h>
+#import <WMF/WMFComparison.h>
 
 @implementation MWKLanguageLinkFetcher
 
