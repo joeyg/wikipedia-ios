@@ -263,7 +263,21 @@ class ExploreViewController: ColumnarCollectionViewController, ExploreCardViewCo
     }()
 
     @available(iOS 14.0, *)
-    lazy var scribbleIgnoringDelegate = ScribbleIgnoringInteractionDelegate()
+    var scribbleIgnoringDelegate: ScribbleIgnoringInteractionDelegate? {
+        get {
+            if _scribbleIgnoringDelegate == nil {
+                _scribbleIgnoringDelegate = ScribbleIgnoringInteractionDelegate()
+            }
+            
+            return _scribbleIgnoringDelegate as? ScribbleIgnoringInteractionDelegate
+        }
+        
+        set {
+            _scribbleIgnoringDelegate = newValue
+        }
+    }
+
+    private var _scribbleIgnoringDelegate: Any?
 
     lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -276,8 +290,10 @@ class ExploreViewController: ColumnarCollectionViewController, ExploreCardViewCo
         if UIDevice.current.userInterfaceIdiom == .pad, #available(iOS 14.0, *) {
             let existingInteractions = searchBar.searchTextField.interactions
             existingInteractions.forEach { searchBar.searchTextField.removeInteraction($0) }
-            let scribbleIgnoringInteraction = UIScribbleInteraction(delegate: scribbleIgnoringDelegate)
-            searchBar.searchTextField.addInteraction(scribbleIgnoringInteraction)
+            if let scribbleIgnoringDelegate = scribbleIgnoringDelegate {
+                let scribbleIgnoringInteraction = UIScribbleInteraction(delegate: scribbleIgnoringDelegate)
+                searchBar.searchTextField.addInteraction(scribbleIgnoringInteraction)
+            }
         }
 
         return searchBar
