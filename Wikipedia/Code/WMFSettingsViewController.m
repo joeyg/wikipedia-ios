@@ -473,7 +473,8 @@ static NSString *const WMFSettingsURLDonation = @"https://donate.wikimedia.org/?
 #pragma mark - Apple Pay
 
 - (void)showApplePay {
-    
+    WMFScrollingSwiftUIViewController *applePayViewController = [[WMFScrollingSwiftUIViewController alloc] init];
+    [self.navigationController pushViewController:applePayViewController animated:YES];
 }
 
 #pragma mark - Storage and syncing
