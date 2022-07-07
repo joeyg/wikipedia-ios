@@ -41,7 +41,15 @@ class NavigationBarHiddenUIHostingController<Content: View>: UIHostingController
     }
     
     func setupHostingScrollView() {
-        view.wmf_addSubviewWithConstraintsToEdges(hostingScrollView)
+        
+        view.addSubview(hostingScrollView)
+        let topConstraint = hostingScrollView.topAnchor.constraint(equalTo: view.topAnchor)
+        let bottomConstraint = hostingScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        let leadingConstraint = hostingScrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+        let trailingConstraint = hostingScrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        view.addConstraints([topConstraint, bottomConstraint, leadingConstraint, trailingConstraint])
+        
+        // view.wmf_addSubviewWithConstraintsToEdges(hostingScrollView)
         self.scrollView = hostingScrollView
     }
     
@@ -49,7 +57,6 @@ class NavigationBarHiddenUIHostingController<Content: View>: UIHostingController
         addChild(hostingController)
         
         hostingScrollView.wmf_addSubviewWithConstraintsToEdges(hostingController.view)
-        
         let hostingWidth = hostingController.view.widthAnchor.constraint(equalTo: hostingScrollView.widthAnchor)
         
         hostingScrollView.addConstraint(hostingWidth)

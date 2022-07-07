@@ -130,8 +130,7 @@ struct ApplePayContentView: View {
             }
             
         }
-        .padding([.bottom], 20)
-        .navigationBarHidden(true)
+        .padding([.top, .bottom], 20)
     }
 }
 
