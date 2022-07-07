@@ -10803,7 +10803,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		00966EAA284033ED006C6E27 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -10815,13 +10815,13 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n\tswiftlint --fix --config \".swiftlint-autocorrect.yml\" && swiftlint\nelse\n\techo \"warning: SwiftLint not installed, run \\\"scripts/brew_install\\\" script to install\"\nfi\n";
 		};
 		00966EAB28403D4D006C6E27 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -10833,7 +10833,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n\tswiftlint --fix --config \".swiftlint-autocorrect.yml\" && swiftlint\nelse\n\techo \"warning: SwiftLint not installed, run \\\"scripts/brew_install\\\" script to install\"\nfi\n";
 		};
@@ -10888,7 +10888,7 @@
 		};
 		D87021721EBA69B7000D02D6 /* Update Localizations */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -10897,7 +10897,7 @@
 			name = "Update Localizations";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "\"$SRCROOT/scripts/localization\" \"$SRCROOT\"\n";
 			showEnvVarsInLog = 0;
@@ -10924,14 +10924,14 @@
 		};
 		D8D987FD1E1C468F00789CA0 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "rm -rf \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/qqq.lproj\"\nrm -rf \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/be-tarask.lproj\"\nrm -rf \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/bik.lproj\"\nrm -rf \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/nah.lproj\"\nrm -rf \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/xmf.lproj\"\nrm -rf \"$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/zza.lproj\"\n";
 		};
