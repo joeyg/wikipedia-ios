@@ -35,4 +35,18 @@ jobs:
         zip -r ../docs.zip *
         cd -
         curl -F "key=4b635f3e-c183-4c75-87b3-4713fc4b47a1" -F "docs=@docs.zip;type=application/zip" https://illuminatebuild.com/docsupload -X POST -v
-
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: testresults.zip
+        path: testresults.zip
+    - name: Upload build log
+      uses: actions/upload-artifact@v3
+      with:
+        name: build.xcactivitylog
+        path: results/Logs/Build/*.xcactivitylog
+    - name: Upload docs
+      uses: actions/upload-artifact@v3
+      with:
+        name: docs.zip
+        path: docs.zip
