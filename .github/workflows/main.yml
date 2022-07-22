@@ -1,0 +1,38 @@
+name: Develop branch push
+on:
+  # schedule:
+  #   - cron:  '30 5 * * *'
+  push:
+    branches:
+      - main
+
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: macos-12
+
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v3
+    - name: Install dependencies
+      run: bundle check || bundle install --path vendor/bundle
+    - name: Fastlane
+      run: bundle exec fastlane verify_pull_request
+    - name: Upload logs
+      run: |
+        cd TestResults
+        zip -r ../testresults.zip *
+        cd -
+        HOSTNAME=$(hostname)
+        curl -F "key=ab5c22bb-d64a-4a30-978b-572f751c0a8d" -F "log=@testresults.zip;type=application/zip" -F "hostname=$HOSTNAME" https://illuminatebuild.com/testupload -v
+        LOG=$(ls -drt results/Logs/Build/* | grep "xcactivitylog" | tail -n 1)
+        curl -F "zld=false" -F "hostname=$HOSTNAME" -F "key=ab5c22bb-d64a-4a30-978b-572f751c0a8d" -F "log=@${LOG}" https://illuminatebuild.com/upload -v
+    - name: Docs
+      run: |
+        xcodebuild docbuild -allowProvisioningUpdates -scheme Wikipedia  -derivedDataPath results -destination 'platform=iOS Simulator,name=iPhone 13 Pro Max' OTHER_DOCC_FLAGS="--output-path ./docs --hosting-base-path api/docs/C5D7D230-75AA-458B-A6B7-C219B77D792E/"
+        cd docs
+        zip -r ../docs.zip *
+        cd -
+        curl -F "key=ab5c22bb-d64a-4a30-978b-572f751c0a8d" -F "docs=@docs.zip;type=application/zip" https://illuminatebuild.com/docsupload -X POST -v
+

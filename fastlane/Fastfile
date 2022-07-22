@@ -116,7 +116,11 @@ platform :ios do
         disable_concurrent_testing: true,
         output_files: "#{scheme}.junit",
         output_types: 'junit',
-        slack_message: slack_message
+        slack_message: slack_message,
+        code_coverage: true,
+        result_bundle: true,
+        output_directory: 'TestResults',
+        derived_data_path: 'results'
       }
       scan(opts)
     end
